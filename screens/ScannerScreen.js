@@ -6,12 +6,10 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 
 export default function ScannerScreen() {
   const [scanning, setScanning] = useState(false);
   const [result, setResult] = useState(null);
-  const { colors } = useTheme();
 
   const handleScan = () => {
     setScanning(true);
@@ -23,20 +21,26 @@ export default function ScannerScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.primary }]}>Scan Your Device</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Scan Your Device</Text>
 
       <TouchableOpacity
-        style={[styles.button, { borderColor: colors.primary }]}
+        style={[styles.button, scanning && { opacity: 0.6 }]}
         onPress={handleScan}
+        disabled={scanning}
       >
-        <Text style={[styles.buttonText, { color: colors.primary }]}>Start Scan</Text>
+        <Text style={styles.buttonText}>{scanning ? 'Scanning...' : 'Start Scan'}</Text>
       </TouchableOpacity>
 
       {scanning && (
-        <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: 30 }} />
+        <ActivityIndicator
+          size="large"
+          color="#00f6ff"
+          style={{ marginTop: 30 }}
+        />
       )}
-      {result && <Text style={[styles.result, { color: colors.primary }]}>{result}</Text>}
+
+      {result && <Text style={styles.result}>{result}</Text>}
     </View>
   );
 }
@@ -44,25 +48,40 @@ export default function ScannerScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#012d3a',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
   },
   title: {
     fontSize: 26,
-    marginBottom: 20,
+    fontWeight: 'bold',
+    marginBottom: 30,
     textAlign: 'center',
+    color: '#ffffff',
   },
   button: {
+    paddingVertical: 16,
+    paddingHorizontal: 30,
+    borderRadius: 12,
+    backgroundColor: '#1f2d3d',
+    borderColor: '#00f6ff',
     borderWidth: 2,
-    padding: 15,
-    borderRadius: 10,
+    shadowColor: '#00f6ff',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 5,
   },
   buttonText: {
+    color: '#00f6ff',
+    fontSize: 16,
     fontWeight: 'bold',
   },
   result: {
     fontSize: 18,
+    color: '#00f6ff',
     marginTop: 30,
+    textAlign: 'center',
   },
 });

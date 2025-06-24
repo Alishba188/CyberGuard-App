@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '@react-navigation/native';
 
 const tips = [
   { id: '1', icon: 'shield-checkmark', tip: 'Never share OTPs or passwords with anyone.' },
@@ -19,18 +18,16 @@ const tips = [
 ];
 
 export default function TipsScreen() {
-  const { colors } = useTheme();
-
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.header, { color: colors.primary }]}>Cyber Safety Tips</Text>
+    <View style={styles.container}>
+      <Text style={styles.header}>Cyber Safety Tips</Text>
       <FlatList
         data={tips}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={[styles.card, { backgroundColor: colors.card }]}>
-            <Ionicons name={item.icon} size={24} color={colors.primary} style={{ marginRight: 10 }} />
-            <Text style={[styles.text, { color: colors.text }]}>{item.tip}</Text>
+          <View style={styles.card}>
+            <Ionicons name={item.icon} size={24} color="#00f6ff" style={{ marginRight: 10 }} />
+            <Text style={styles.text}>{item.tip}</Text>
           </View>
         )}
       />
@@ -39,14 +36,31 @@ export default function TipsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  header: { fontSize: 22, marginBottom: 20, fontWeight: 'bold' },
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#011923',
+  },
+  header: {
+    fontSize: 24,
+    marginBottom: 20,
+    fontWeight: 'bold',
+    color: '#00f6ff',
+    textAlign: 'center',
+  },
   card: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
+    backgroundColor: '#022c3f',
+    borderColor: '#00f6ff33',
+    borderWidth: 1,
   },
-  text: { flex: 1 },
+  text: {
+    flex: 1,
+    color: '#ccfaff',
+    fontSize: 15,
+  },
 });

@@ -11,11 +11,8 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
-import { useTheme } from '@react-navigation/native';
 
 export default function ReportScreen() {
-  const { colors } = useTheme();
-
   const [type, setType] = useState('Phishing');
   const [desc, setDesc] = useState('');
   const [image, setImage] = useState(null);
@@ -49,7 +46,7 @@ export default function ReportScreen() {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: [ImagePicker.MediaType.IMAGE], // ✅ Updated usage
+      mediaTypes: [ImagePicker.MediaType.IMAGE],
       allowsEditing: true,
       quality: 0.7,
     });
@@ -60,15 +57,16 @@ export default function ReportScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.primary }]}>Report Cyber Crime</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Report Cyber Crime</Text>
 
-      <Text style={[styles.label, { color: colors.text }]}>Type:</Text>
-      <View style={[styles.pickerWrapper, { backgroundColor: colors.card, borderColor: colors.primary }]}>
+      <Text style={styles.label}>Type:</Text>
+      <View style={styles.pickerWrapper}>
         <Picker
           selectedValue={type}
           onValueChange={setType}
-          style={[styles.picker, { color: colors.text }]}
+          dropdownIconColor="#00f6ff"
+          style={styles.picker}
         >
           <Picker.Item label="Phishing" value="Phishing" />
           <Picker.Item label="Malware" value="Malware" />
@@ -77,57 +75,55 @@ export default function ReportScreen() {
         </Picker>
       </View>
 
-      <Text style={[styles.label, { color: colors.text }]}>Description:</Text>
+      <Text style={styles.label}>Description:</Text>
       <TextInput
-        style={[
-          styles.input,
-          {
-            backgroundColor: colors.card,
-            borderColor: colors.primary,
-            color: colors.text,
-          },
-        ]}
+        style={styles.input}
         placeholder="Explain the issue..."
-        placeholderTextColor={colors.text + '88'}
+        placeholderTextColor="black"
         multiline
         numberOfLines={4}
         value={desc}
         onChangeText={setDesc}
       />
 
-      <TouchableOpacity style={[styles.uploadButton, { borderColor: colors.primary }]} onPress={handlePickImage}>
-        <Text style={{ color: colors.primary }}>
+      <TouchableOpacity style={styles.uploadButton} onPress={handlePickImage}>
+        <Text style={{ color: '#00f6ff', fontWeight: '600' }}>
           {image ? 'Change Screenshot' : 'Upload Screenshot'}
         </Text>
       </TouchableOpacity>
+
       {image && (
         <Image
           source={{ uri: image }}
-          style={{ width: '100%', height: 200, marginTop: 10, borderRadius: 10 }}
+          style={{ width: '100%', height: 200, marginTop: 10, borderRadius: 12 }}
         />
       )}
 
-      <TouchableOpacity
-        style={[styles.button, { borderColor: colors.primary }]}
-        onPress={handleSubmit}
-      >
-        <Text style={[styles.buttonText, { color: colors.primary }]}>Submit Report</Text>
+      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>Submit Report</Text>
       </TouchableOpacity>
 
       {history.length > 0 && (
         <>
-          <Text style={[styles.historyTitle, { color: colors.text }]}>Report History</Text>
+          <Text style={styles.historyTitle}>Report History</Text>
           <FlatList
             data={history}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={[styles.reportCard, { backgroundColor: colors.card }]}>
-                <Text style={{ color: colors.text, fontWeight: 'bold' }}>Type: {item.type}</Text>
-                <Text style={{ color: colors.text }}>Desc: {item.desc}</Text>
+              <View style={styles.reportCard}>
+                <Text style={styles.reportText}>
+                  <Text style={{ fontWeight: 'bold', color: '#00f6ff' }}>Type:</Text> {item.type}
+                </Text>
+                <Text style={styles.reportText}>Desc: {item.desc}</Text>
                 {item.image && (
                   <Image
                     source={{ uri: item.image }}
-                    style={{ width: '100%', height: 100, marginTop: 5, borderRadius: 8 }}
+                    style={{
+                      width: '100%',
+                      height: 100,
+                      marginTop: 6,
+                      borderRadius: 10,
+                    }}
                   />
                 )}
               </View>
@@ -143,59 +139,83 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
+    backgroundColor: '#012d3a',
   },
   title: {
-    fontSize: 26,
+    fontSize: 24,
     marginBottom: 20,
     textAlign: 'center',
     fontWeight: 'bold',
+    color: '#ffffff',
   },
   label: {
     marginTop: 15,
     marginBottom: 5,
     fontSize: 16,
+    color: '#cccccc',
   },
   input: {
-    borderWidth: 1,
-    padding: 15,
-    borderRadius: 10,
+    backgroundColor: '#f0f4f8',
+    borderColor: '#00f6ff',
+    borderWidth: 1.5,
+    padding: 14,
+    borderRadius: 12,
+    color: '#000',
     textAlignVertical: 'top',
   },
   pickerWrapper: {
-    borderRadius: 10,
-    borderWidth: 1,
+    backgroundColor: '#f0f4f8',
+    borderColor: '#00f6ff',
+    borderWidth: 1.5,
+    borderRadius: 12,
     marginBottom: 10,
   },
   picker: {
     height: 50,
     width: '100%',
+    color: '#000',
   },
   uploadButton: {
     marginTop: 15,
-    padding: 12,
+    padding: 14,
     borderWidth: 1.5,
-    borderRadius: 10,
+    borderColor: '#00f6ff',
+    borderRadius: 12,
     alignItems: 'center',
+    backgroundColor: '#1f2d3d',
   },
-  button: {
+  submitButton: {
     marginTop: 20,
-    padding: 15,
-    borderRadius: 10,
-    borderWidth: 2,
+    padding: 16,
+    borderRadius: 12,
     alignItems: 'center',
+    backgroundColor: '#1f2d3d',
+    shadowColor: '#00f6ff',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 5,
   },
   buttonText: {
     fontWeight: 'bold',
+    fontSize: 16,
+    color: '#ffffff',
   },
   historyTitle: {
     fontSize: 20,
     marginTop: 30,
     marginBottom: 10,
-    fontWeight: '600',
+    fontWeight: 'bold',
+    color: '#ffffff',
   },
   reportCard: {
-    padding: 12,
+    padding: 14,
+    borderRadius: 12,
+    backgroundColor: '#1a2e3b',
     marginBottom: 10,
-    borderRadius: 10,
+  },
+  reportText: {
+    color: '#cccccc',
+    marginBottom: 4,
   },
 });

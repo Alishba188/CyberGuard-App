@@ -1,36 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 
 export default function HomeScreen({ navigation }) {
-  const { colors } = useTheme();
-
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Welcome to CyberGuard</Text>
-      <TouchableOpacity
-        style={[styles.button, { borderColor: colors.primary, backgroundColor: colors.card }]}
-        onPress={() => navigation.navigate('Profile')}
-      >
-        <Text style={[styles.buttonText, { color: colors.primary }]}>Profile</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Welcome to CyberGuard</Text>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Report')}>
+        <Text style={styles.buttonText}>Report</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, { borderColor: colors.primary, backgroundColor: colors.card }]}
-        onPress={() => navigation.navigate('Report')}
-      >
-        <Text style={[styles.buttonText, { color: colors.primary }]}>Report</Text>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Scanner')}>
+        <Text style={styles.buttonText}>Scanner</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, { borderColor: colors.primary, backgroundColor: colors.card }]}
-        onPress={() => navigation.navigate('Scanner')}
-      >
-        <Text style={[styles.buttonText, { color: colors.primary }]}>Scanner</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, { borderColor: colors.primary, backgroundColor: colors.card }]}
-        onPress={() => navigation.navigate('Tips')}
-      >
-        <Text style={[styles.buttonText, { color: colors.primary }]}>Tips</Text>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tips')}>
+        <Text style={styles.buttonText}>Tips</Text>
       </TouchableOpacity>
     </View>
   );
@@ -42,20 +27,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: '#012d3a', // deep dark background
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     marginBottom: 30,
+    color: '#ffffff',
+    fontWeight: 'bold',
   },
   button: {
     padding: 15,
     borderRadius: 10,
-    marginTop: 10,
+    marginTop: 15,
     width: '80%',
     alignItems: 'center',
-    borderWidth: 1,
+    backgroundColor: '#1f2d3d',
+    shadowColor: '#00f6ff',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 5,
   },
   buttonText: {
     fontWeight: 'bold',
+    color: '#ffffff',
+    fontSize: 16,
   },
 });
